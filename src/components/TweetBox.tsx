@@ -40,7 +40,7 @@ const TweetBox = ({ address, disconnect, setPendingTweets }: ITweetBox) => {
     }
 
     return (
-        <div className="tweet">
+        <div className="tweet tweet-box">
             {/* <img src="https://avatar.tonies.de/static/stage/01.png" className="avatar" alt="avatar" /> */}
             <div className="content">
                 <span className="author">

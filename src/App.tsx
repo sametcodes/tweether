@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, Fragment, useCallback, useMemo } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import Tweet from './components/Tweet';
 import PendingTweet from './components/PendingTweet';
@@ -21,6 +21,7 @@ function App() {
   const observer = useRef(new IntersectionObserver(
     (entries) => {
       if (entries[0].isIntersecting) {
+        setLoading(true);
         getTweets();
       }
     })
@@ -41,13 +42,6 @@ function App() {
     };
   }, [lastElement]);
 
-
-  const getTotalTweet = async () => {
-    const response = await contract.getTotalTweet();
-    total.current = Number(response);
-    getTweets();
-  }
-
   const getTweet = async (tweetId: number): Promise<ITweetData> => {
     const tweet = await contract.getTweet(tweetId);
     const [id, owner, replies, likes, likedByMe, text, createdAt]: TweetType = tweet;
@@ -65,6 +59,16 @@ function App() {
     setLoading(false);
   }
 
+  const getTotalTweet = async () => {
+    const response = await contract.getTotalTweet();
+    total.current = Number(response);
+    getTweets();
+  }
+
+  useEffect(() => {
+    getTotalTweet();
+  }, []);
+
   contract.on('CreateTweet', async (tweetId: number, owner: string, text: string) => {
     if (pendingTweets.find(tweet => tweet.owner.toLowerCase() === owner.toLocaleLowerCase() && tweet.text === text)) {
       setPendingTweets(pendingTweets => pendingTweets.filter(tweet => tweet.owner.toLowerCase() !== owner.toLowerCase() && tweet.text !== text));
@@ -73,10 +77,6 @@ function App() {
       setTweets([response, ...tweets]);
     }
   });
-
-  useEffect(() => {
-    getTotalTweet();
-  }, []);
 
   return (
     <div className="App">
@@ -91,16 +91,15 @@ function App() {
       </div>
       <div className="tweets">
         {pendingTweets.map((pendingTweet, key) => <PendingTweet key={`pending_${key}`} tweet={pendingTweet} />)}
-        {loading
-          ? Array.from({ length: LIMIT_PER_PAGE }, (_, index) => index + 1).reverse().map(id => <TweetLoading key={id} />)
-          : tweets.map((tweet, index, arr) => {
-            return <Tweet key={`tweet_${tweet.id}`} data={tweet} />
-          })
-        }
+        {tweets.map(tweet => <Tweet key={`tweet_${tweet.id}`} data={tweet} /> )}
+
+        {loading && Array.from({ length: LIMIT_PER_PAGE }, (_, index) => index + 1)
+          .reverse().map(id => <TweetLoading key={id} />) }
+
         <span ref={setLastElement as any}></span>
       </div>
 
-      { loading === false && tweets.length === total.current && <div className="no-more">End of tweeths</div> }
+      {loading === false && tweets.length === total.current && <div className="no-more">End of tweeths</div>}
     </div>
   );
 }

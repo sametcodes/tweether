@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useContract } from '../context/Contract';
 import { shortenAddress } from '../utils';
 
 import TweetLoading from './TweetLoading';
 import './style.css';
 
-const Tweet = ({data, refetch}: ITweet) => {
+const Tweet = ({data}: ITweet) => {
     const { contract } = useContract();
     const [tweet, setTweet] = useState<ITweetData>(data);
     const [processing, setProcessing] = useState(false);
 
     const getTweet = async (tweetId: number) => {
         const response = await contract.getTweet(tweetId);
-        const [id, owner, replies, likes, likedByMe, text, createdAt]: TweetType = response;
+        const [,, replies, likes, likedByMe,,]: TweetType = response;
         setTweet({ ...tweet, replies, likes: Number(likes), likedByMe });
         setProcessing(false);
     }

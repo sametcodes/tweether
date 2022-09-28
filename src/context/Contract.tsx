@@ -5,15 +5,6 @@ import { ethers, Contract } from 'ethers';
 const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
 const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider.getSigner())
 
-interface IContractContext {
-    account: {
-        address: string | null;
-        connect: () => void;
-        disconnect: () => void;
-    },
-    contract: Contract,
-}
-
 const Context = React.createContext<IContractContext>({
     account: {
         address: null,
@@ -26,15 +17,15 @@ const Context = React.createContext<IContractContext>({
 const ContractContext = ({ children }: { children: React.ReactNode }) => {
     const [walletAddress, setWalletAddress] = useState(null);
 
-    useEffect(() => {
-        connect();
-    }, [])
-
     const connect = async () => {
         const [account] = await provider.send("eth_requestAccounts", []);
         contract.attach(account);
         setWalletAddress(account);
     }
+
+    useEffect(() => {
+        connect();
+    }, [])
 
     const disconnect = () => {
         setWalletAddress(null);

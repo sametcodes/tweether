@@ -7,7 +7,6 @@ import App from './App';
 
 import ContractContext from './context/Contract';
 
-
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

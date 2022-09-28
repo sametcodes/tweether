@@ -2,7 +2,7 @@ interface Window {
     ethereum: import('ethers').providers.ExternalProvider;
 }
 
-interface ITweetBox{
+interface ITweetBox {
     address: string;
     disconnect: () => void;
     setPendingTweets: React.Dispatch<React.SetStateAction<ITweetData[]>>;
@@ -10,7 +10,6 @@ interface ITweetBox{
 
 interface ITweet {
     data: ITweetData;
-    refetch?: () => ITweetData;
 }
 
 interface ITweetData {
@@ -24,3 +23,12 @@ interface ITweetData {
 }
 
 type TweetType = [string, string, number[], number, boolean, string, number];
+
+interface IContractContext {
+    account: {
+        address: string | null;
+        connect: () => void;
+        disconnect: () => void;
+    },
+    contract: Contract,
+}
