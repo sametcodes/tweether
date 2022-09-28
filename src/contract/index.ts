@@ -1,0 +1,6 @@
+
+import ABI from './abi.json';
+
+const CONTRACT_ADDRESS = "0x2e5e3A6AF0DD41af77eFA12BB82e6FEf258734b3";
+
+export { ABI, CONTRACT_ADDRESS }
