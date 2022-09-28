@@ -5,28 +5,24 @@ import { shortenAddress } from '../utils';
 import TweetLoading from './TweetLoading';
 import './style.css';
 
-const Tweet = ({ tweetId }: ITweet) => {
+const Tweet = ({data, refetch}: ITweet) => {
     const { contract } = useContract();
-    const [tweet, setTweet] = useState<ITweetData | null>(null);
+    const [tweet, setTweet] = useState<ITweetData>(data);
     const [processing, setProcessing] = useState(false);
 
-    const getTweet = async () => {
-        const tweet = await contract.getTweet(tweetId);
-        const [id, owner, replies, likes, likedByMe, text, createdAt]: TweetType = tweet;
-        setTweet({ id: Number(id), owner, replies, likes: Number(likes), likedByMe, text, createdAt: Number(createdAt) });
+    const getTweet = async (tweetId: number) => {
+        const response = await contract.getTweet(tweetId);
+        const [id, owner, replies, likes, likedByMe, text, createdAt]: TweetType = response;
+        setTweet({ ...tweet, replies, likes: Number(likes), likedByMe });
         setProcessing(false);
     }
-
-    useEffect(() => {
-        getTweet();
-    }, []);
 
     const likeTweet = async () => {
         if(processing) return;
 
-        const data = await contract.likeTweet(tweetId);
+        const response = await contract.likeTweet(tweet.id);
         setProcessing(true);
-        await data.wait().then(() => getTweet());
+        response.wait().then(() => getTweet(Number(data.id)));
     }
 
     if(tweet === null){

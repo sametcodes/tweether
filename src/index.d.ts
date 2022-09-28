@@ -9,7 +9,8 @@ interface ITweetBox{
 }
 
 interface ITweet {
-    tweetId: number
+    data: ITweetData;
+    refetch?: () => ITweetData;
 }
 
 interface ITweetData {

@@ -21,9 +21,9 @@ const TweetBox = ({ address, disconnect, setPendingTweets }: ITweetBox) => {
         const tweet = inputRef.current.value;
         if (typeof tweet !== "string") return;
 
-        const data = await contract.createTweet(tweet, false, 0);
+        const response = await contract.createTweet(tweet, false, 0);
         setPendingTweets(pendingTweets => [{
-            id: Number(data.value),
+            id: Number(response.value),
             owner: address,
             replies: [],
             likes: 0,
@@ -32,7 +32,7 @@ const TweetBox = ({ address, disconnect, setPendingTweets }: ITweetBox) => {
             createdAt: Date.now()
         }, ...pendingTweets]);
 
-        data.wait().then(() => {
+        response.wait().then(() => {
             if(!(inputRef.current instanceof HTMLTextAreaElement)) return;
             setPending(false);
             inputRef.current.value = "";

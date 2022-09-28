@@ -20,7 +20,7 @@ const PendingTweet = ({ tweet }: { tweet: ITweetData }) => {
                     {/* <i className="fa fa-retweet retweet-button" /> */}
                     <span className="button">
                         {Number(tweet.likes)}
-                        <i className="fa fa-heart like-button" />
+                        <i className="fa fa-heart" />
                     </span>
                     <i className="fa fa-ellipsis-h more-options-button" />
                 </div>
