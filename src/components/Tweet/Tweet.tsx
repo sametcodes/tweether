@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useContract } from '../../context/Contract';
-import { shortenAddress } from '../../utils';
+import { shortenAddress, getRelativeTime } from '../../utils';
 
 import {TweetLoading} from '../index';
 
@@ -37,7 +37,7 @@ export const Tweet = ({data}: ITweet) => {
                 </span>
 
                  {/* TODO: implement x time ago text  */}
-                <span className="time">{processing ? "processing..." : "3h ago"}</span>
+                <span className="time">{processing ? "processing..." : getRelativeTime(new Date(tweet.createdAt * 1000))}</span>
                 <div className="message">{tweet.text}</div>
                 <div className="buttons">
                     <span className="button">
