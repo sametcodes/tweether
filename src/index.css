@@ -12,7 +12,17 @@ code {
     monospace;
 }
 
-.App {
+a{
+  outline: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover{
+  color:rgb(36, 94, 224);
+}
+
+.container {
   width: 564px;
   margin: 0px auto;
 }
@@ -23,7 +33,6 @@ code {
 
 .tweet {
   border: 1px solid #ccc;
-  border-top: 0px;
   width: 564px;
   min-height: 68px;
   padding: 15px;
@@ -31,15 +40,6 @@ code {
   font-family: "Helvetica", arial, sans-serif;
   font-size: 14px;
   line-height: 18px;
-}
-
-.tweet:first-child {
-  border-top: 1px solid #ccc;
-}
-.tweet-box{
-  border-bottom: 0px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
 }
 
 .tweet.pending {

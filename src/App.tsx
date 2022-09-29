@@ -1,16 +1,17 @@
-import { useState } from 'react';
-import { Header, TweetList } from './components';
+import { Routes, Route } from 'react-router-dom';
+import { Detail, Home } from './pages';
 
 const App = () => {
-  const [pendingTweets, setPendingTweets] = useState<ITweetData[]>([]);
 
-  return (
-    <div className="App">
-      <h2>Tweether</h2>
-      <Header setPendingTweets={setPendingTweets} />
-      <TweetList pendingTweets={pendingTweets} setPendingTweets={setPendingTweets} />
-    </div>
-  );
+  // TODO: adding a new field in the Tweet struct as replyTweet (boolean)
+
+  return <div className="container">
+    <Routes>
+      <Route path="/tweet/:tweetId" element={<Detail />} />
+      <Route path="/" element={<Home />} />
+    </Routes>
+  </div>
+    ;
 }
 
 export default App;

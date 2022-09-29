@@ -6,6 +6,7 @@ interface ITweetBox {
     address: string;
     disconnect: () => void;
     setPendingTweets: React.Dispatch<React.SetStateAction<ITweetData[]>>;
+    replyTo?: number;
 }
 
 interface ITweet {
@@ -36,8 +37,13 @@ interface IContractContext {
 interface ITweetList{
     pendingTweets: ITweetData[];
     setPendingTweets: React.Dispatch<React.SetStateAction<ITweetData[]>>;
+    lists?: number[];
 }
 
 interface IHeader{
     setPendingTweets: React.Dispatch<React.SetStateAction<ITweetData[]>>;
+}
+
+interface ITweetDetail{
+    tweetId: number;
 }

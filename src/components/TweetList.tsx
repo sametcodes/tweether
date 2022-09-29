@@ -3,7 +3,7 @@ import { useContract } from '../context/Contract';
 
 import { Tweet, PendingTweet, TweetLoading } from '../components'
 
-export const TweetList = ({ pendingTweets, setPendingTweets }: ITweetList) => {
+export const TweetList = ({ pendingTweets, setPendingTweets, lists }: ITweetList) => {
     const { contract } = useContract();
 
     const LIMIT_PER_PAGE = 10;
@@ -46,9 +46,12 @@ export const TweetList = ({ pendingTweets, setPendingTweets }: ITweetList) => {
     }
 
     const getTweets = async () => {
-        const tweetIds = Array.from({ length: LIMIT_PER_PAGE },
-            (_, index) => index + total.current - LIMIT_PER_PAGE - refOffset.current)
-            .filter(id => id >= 0).reverse();
+        const tweetIds = Array.isArray(lists)
+            ? lists.slice(refOffset.current, refOffset.current + LIMIT_PER_PAGE)
+            : Array.from({ length: LIMIT_PER_PAGE },
+                (_, index) => index + total.current - LIMIT_PER_PAGE - refOffset.current)
+                .filter(id => id >= 0).reverse();
+
         refOffset.current += LIMIT_PER_PAGE;
 
         const tweetsData = await Promise.all(tweetIds.map(getTweet));
@@ -63,7 +66,11 @@ export const TweetList = ({ pendingTweets, setPendingTweets }: ITweetList) => {
     }
 
     useEffect(() => {
-        getTotalTweet();
+        if (Array.isArray(lists)) {
+            getTweets();
+        } else {
+            getTotalTweet();
+        }
     }, []);
 
     contract.on('CreateTweet', async (tweetId: number, owner: string, text: string) => {

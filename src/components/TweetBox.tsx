@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import { shortenAddress } from '../utils';
 import { useContract } from '../context/Contract';
 
-export const TweetBox = ({ address, disconnect, setPendingTweets }: ITweetBox) => {
+export const TweetBox = ({ address, disconnect, setPendingTweets, replyTo}: ITweetBox) => {
     const { contract } = useContract();
     const [ pending, setPending ] = useState(false);
 
@@ -21,7 +21,9 @@ export const TweetBox = ({ address, disconnect, setPendingTweets }: ITweetBox) =
         const tweet = inputRef.current.value;
         if (typeof tweet !== "string") return;
 
-        const response = await contract.createTweet(tweet, false, 0);
+        const isReplyTweet = replyTo !== undefined ? true : false;
+        const replyTweetId = replyTo !== undefined ? replyTo : 0;
+        const response = await contract.createTweet(tweet, isReplyTweet, replyTweetId);
         setPendingTweets(pendingTweets => [{
             id: Number(response.value),
             owner: address,
