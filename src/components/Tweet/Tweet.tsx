@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { useContract } from '../context/Contract';
-import { shortenAddress } from '../utils';
+import { useContract } from '../../context/Contract';
+import { shortenAddress } from '../../utils';
 
-import TweetLoading from './TweetLoading';
-import './style.css';
+import {TweetLoading} from '../index';
 
-const Tweet = ({data}: ITweet) => {
+export const Tweet = ({data}: ITweet) => {
     const { contract } = useContract();
     const [tweet, setTweet] = useState<ITweetData>(data);
     const [processing, setProcessing] = useState(false);
@@ -55,5 +54,3 @@ const Tweet = ({data}: ITweet) => {
         </div>
     );
 }
-
-export default Tweet;

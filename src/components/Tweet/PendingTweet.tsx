@@ -1,7 +1,6 @@
-import { shortenAddress } from '../utils';
-import './style.css';
+import { shortenAddress } from '../../utils';
 
-const PendingTweet = ({ tweet }: { tweet: ITweetData }) => {
+export const PendingTweet = ({ tweet }: { tweet: ITweetData }) => {
     return (
         <div className="tweet pending">
             {/* <img src="https://avatar.tonies.de/static/stage/01.png" className="avatar" alt="avatar" /> */}
@@ -28,5 +27,3 @@ const PendingTweet = ({ tweet }: { tweet: ITweetData }) => {
         </div>
     );
 }
-
-export default PendingTweet;

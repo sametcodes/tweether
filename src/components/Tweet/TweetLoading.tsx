@@ -1,6 +1,4 @@
-import './style.css';
-
-const Tweet = () => {
+export const TweetLoading = () => {
     return (
         <div className="tweet">
             {/* <img src="https://avatar.tonies.de/static/stage/01.png" className="avatar" alt="avatar" /> */}
@@ -33,5 +31,3 @@ const Tweet = () => {
         </div>
     );
 }
-
-export default Tweet;

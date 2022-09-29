@@ -1,9 +1,9 @@
-import { shortenAddress } from '../utils';
 import { useRef, useState } from 'react';
-import { useContract } from '../context/Contract';
-import './style.css';
 
-const TweetBox = ({ address, disconnect, setPendingTweets }: ITweetBox) => {
+import { shortenAddress } from '../utils';
+import { useContract } from '../context/Contract';
+
+export const TweetBox = ({ address, disconnect, setPendingTweets }: ITweetBox) => {
     const { contract } = useContract();
     const [ pending, setPending ] = useState(false);
 
@@ -55,5 +55,3 @@ const TweetBox = ({ address, disconnect, setPendingTweets }: ITweetBox) => {
         </div>
     );
 }
-
-export default TweetBox;

@@ -32,3 +32,12 @@ interface IContractContext {
     },
     contract: Contract,
 }
+
+interface ITweetList{
+    pendingTweets: ITweetData[];
+    setPendingTweets: React.Dispatch<React.SetStateAction<ITweetData[]>>;
+}
+
+interface IHeader{
+    setPendingTweets: React.Dispatch<React.SetStateAction<ITweetData[]>>;
+}
