@@ -4,7 +4,7 @@ import { TweetDetail } from '../components';
 export const Detail = () => {
     const { tweetId } = useParams();
 
-    return <div className="detail-tweet">
+    return <>
         <TweetDetail tweetId={Number(tweetId)} />
-    </div>
+    </>
 }

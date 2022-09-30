@@ -21,15 +21,12 @@ export const TweetDetail = ({ tweetId }: ITweetDetail) => {
         }
     }, [tweetId]);
 
-    return <div className="detail-tweet">
-        <h2>Detail</h2>
+    return <div className="tweets detail-tweet">
         {!tweet && Array.from({ length: 10 }, (_, index) => index + 1).reverse().map(id => <TweetLoading key={id} />)}
         {tweet && <Tweet data={tweet} />}
         {address && tweet && <TweetBox
             replyTo={tweet.id} address={address} disconnect={disconnect} setPendingTweets={setPendingTweets} />}
         
-        {/* TODO: pending tweets show up twice */}
-        {pendingTweets.map((pendingTweet, key) => <PendingTweet key={`pending_${key}`} tweet={pendingTweet} />)}
         {
             tweet && <TweetList
                 lists={tweet.replies.map(Number)}
