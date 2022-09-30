@@ -20,6 +20,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "typechain": "typechain --target ethers-v5 --out-dir src/contract/types 'src/contract/*.json'",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -42,8 +43,10 @@
     ]
   },
   "devDependencies": {
+    "@typechain/ethers-v5": "^10.1.0",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
-    "@types/react-router-dom": "^5.3.3"
+    "@types/react-router-dom": "^5.3.3",
+    "typechain": "^8.1.0"
   }
 }

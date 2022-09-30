@@ -41,8 +41,8 @@ export const TweetList = ({ pendingTweets, setPendingTweets, lists }: ITweetList
 
     const getTweet = async (tweetId: number): Promise<ITweetData> => {
         const tweet = await contract.getTweet(tweetId);
-        const [id, owner, replies, likes, likedByMe, text, createdAt]: TweetType = tweet;
-        return { id: Number(id), owner, replies, likes: Number(likes), likedByMe, text, createdAt: Number(createdAt) };
+        const [id, owner, replies, likes, likedByMe, text, createdAt, reply, repliedTo]: TweetType = tweet;
+        return { id: Number(id), owner, replies, likes: Number(likes), likedByMe, text, createdAt: Number(createdAt), reply, repliedTo };
     }
 
     const getTweets = async () => {

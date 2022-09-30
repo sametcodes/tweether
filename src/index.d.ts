@@ -14,16 +14,18 @@ interface ITweet {
 }
 
 interface ITweetData {
-    id: number;
+    id: BigNumber;
     owner: string;
-    replies: number[];
-    likes: number;
+    replies: BigNumber[];
+    likes: BigNumber;
     likedByMe: boolean;
     text: string;
-    createdAt: number;
+    createdAt: BigNumber;
+    reply: boolean;
+    repliedTo: BigNumber;
 }
 
-type TweetType = [string, string, number[], number, boolean, string, number];
+type TweetType = [BigNumber, string, BigNumber[], BigNumber, boolean, string, BigNumber, boolean, BigNumber];
 
 interface IContractContext {
     account: {
@@ -31,7 +33,7 @@ interface IContractContext {
         connect: () => void;
         disconnect: () => void;
     },
-    contract: Contract,
+    contract: import('./contract/types/Tweether').Tweether
 }
 
 interface ITweetList{

@@ -9,7 +9,6 @@ export const PendingTweet = ({ tweet }: { tweet: ITweetData }) => {
                     <span className="name">{shortenAddress(tweet.owner)}</span>
                 </span>
 
-                 {/* TODO: implement x time ago text  */}
                 <span className="time">pending...</span>
                 <div className="message">{tweet.text}</div>
                 <div className="buttons">

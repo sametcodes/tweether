@@ -156,3 +156,25 @@ a:hover{
   margin: 30px;
   font-size: 1em;
 }
+
+.replied-to{
+  line-height: 1;
+  height: 10px;
+  margin: 0px;
+  padding: 5px 0px 10px 0px;
+  width: max-content;
+  color: rgb(36, 94, 224);
+}
+
+.replied-to:hover{
+  text-decoration: underline;
+}
+
+.replied-to i{
+  font-size: 10px;
+  margin-right: 5px;
+}
+
+.content-header{
+  margin-bottom: 5px;
+}

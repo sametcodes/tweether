@@ -4,6 +4,9 @@ import { shortenAddress } from '../utils';
 import { useContract } from '../context/Contract';
 
 export const TweetBox = ({ address, disconnect, setPendingTweets, replyTo}: ITweetBox) => {
+    
+    // TODO: implement text limit
+
     const { contract } = useContract();
     const [ pending, setPending ] = useState(false);
 
@@ -31,7 +34,9 @@ export const TweetBox = ({ address, disconnect, setPendingTweets, replyTo}: ITwe
             likes: 0,
             likedByMe: false,
             text: tweet,
-            createdAt: Date.now()
+            createdAt: Date.now(),
+            reply: isReplyTweet,
+            repliedTo: replyTweetId
         }, ...pendingTweets]);
 
         response.wait().then(() => {

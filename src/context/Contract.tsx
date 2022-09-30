@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ABI, CONTRACT_ADDRESS } from '../contract';
-import { ethers, Contract } from 'ethers';
+import { ethers } from 'ethers';
+import { Tweether__factory } from '../contract/types';
 
 const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider.getSigner())
+const contract = Tweether__factory.connect(CONTRACT_ADDRESS, provider.getSigner());
 
 const Context = React.createContext<IContractContext>({
     account: {

@@ -1,6 +1,6 @@
 
-import ABI from './abi.json';
+import ABI from './Tweether.json';
 
-const CONTRACT_ADDRESS = "0x2e5e3A6AF0DD41af77eFA12BB82e6FEf258734b3";
+const CONTRACT_ADDRESS = "0xaf23503a6f5e38C3d060fdC58c609371cDF0228e";
 
 export { ABI, CONTRACT_ADDRESS }

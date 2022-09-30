@@ -8,12 +8,13 @@ import { TweetLoading } from '../index';
 export const Tweet = ({ data }: ITweet) => {
     const navigate = useNavigate();
 
-    const {contract} = useContract();
+    const { contract } = useContract();
     const [tweet, setTweet] = useState<ITweetData>(data);
     const [processing, setProcessing] = useState(false);
 
     const likeButtonRef = useRef<HTMLSpanElement>(null);
-    const replyButtonRef = useRef<HTMLSpanElement>(null);
+    const replyButtonRef = useRef<HTMLAnchorElement>(null);
+    const repliedToRef = useRef<HTMLAnchorElement>(null);
     const timeLinkRef = useRef<HTMLSpanElement>(null);
 
     const getTweet = async (tweetId: number) => {
@@ -34,7 +35,7 @@ export const Tweet = ({ data }: ITweet) => {
     const onClickTweet = (event: React.MouseEvent<HTMLDivElement>) => {
         event.preventDefault();
 
-        const refs = [likeButtonRef, replyButtonRef, timeLinkRef];
+        const refs = [likeButtonRef, replyButtonRef, timeLinkRef, repliedToRef];
         if (refs.find(ref => ref.current?.contains(event.target as Node))) return;
 
         navigate(`/tweet/${tweet.id}`);
@@ -44,26 +45,36 @@ export const Tweet = ({ data }: ITweet) => {
         return <TweetLoading />
     }
 
+    console.log(tweet);
     return (
         <div className={`tweet ${processing ? "pending" : ""}`} onClick={onClickTweet}>
             {/* <img src="https://avatar.tonies.de/static/stage/01.png" className="avatar" alt="avatar" /> */}
             <div className="content">
-                <span className="author">
-                    <span className="name">{shortenAddress(tweet.owner)}</span>
-                </span>
+                <div className="content-header">
+                    <span className="author">
+                        <span className="name">{shortenAddress(tweet.owner)}</span>
+                    </span>
 
-                <span className="time" ref={timeLinkRef}>{processing
-                    ? "processing..."
-                    : <Link to={`/tweet/${tweet.id}`}>{getRelativeTime(new Date(tweet.createdAt * 1000))}</Link>
-                }</span>
+                    <span className="time" ref={timeLinkRef}>{processing
+                        ? "processing..."
+                        : <Link to={`/tweet/${tweet.id}`}>{getRelativeTime(new Date(tweet.createdAt * 1000))}</Link>
+                    }</span>
+                </div>
+                {tweet.reply && <Link to={`/tweet/${tweet.repliedTo.toString()}`} ref={repliedToRef}>
+                    <p className="replied-to">
+                        <i className="fa fa-reply" />
+                        <span>replied to #{tweet.repliedTo.toString()}</span>
+                    </p>
+                </Link>
+                }
                 <div className="message">{tweet.text}</div>
                 <div className="buttons">
-                    <span className="button" ref={replyButtonRef}>
-                        <Link to={`/tweet/${tweet.id}`}><>
+                    <Link to={`/tweet/${tweet.id}`} ref={replyButtonRef}>
+                        <span className="button">
                             {tweet.replies.length}
                             <i className="fa fa-reply reply-button" />
-                        </></Link>
-                    </span>
+                        </span>
+                    </Link>
                     {/* <i className="fa fa-retweet retweet-button" /> */}
                     <span className="button" ref={likeButtonRef} onClick={likeTweet} >
                         {Number(tweet.likes)}

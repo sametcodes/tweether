@@ -9,7 +9,6 @@ export const TweetLoading = () => {
                     </span>
                 </span>
 
-                {/* TODO: implement x time ago text  */}
                 <span className="time">
                     <div className="loading-box" style={{ display: "inline-block", float: "left", margin: "10px 5px", width: "30px", height: 10 }}></div>
                 </span>
