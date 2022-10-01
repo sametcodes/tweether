@@ -1,3 +1,5 @@
+declare module 'solc';
+
 interface Window {
     ethereum: import('ethers').providers.ExternalProvider;
 }
