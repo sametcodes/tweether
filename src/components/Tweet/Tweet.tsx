@@ -1,4 +1,4 @@
-import { useState, useRef, LegacyRef } from 'react';
+import { useState, useRef } from 'react';
 import { useContract } from '../../context/Contract';
 import { shortenAddress, getRelativeTime } from '../../utils';
 import { Link, useNavigate } from 'react-router-dom';

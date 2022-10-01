@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ABI, CONTRACT_ADDRESS } from '../contract';
+import { CONTRACT_ADDRESS } from '../contract';
 import { ethers } from 'ethers';
 import { Tweether__factory } from '../contract/types';
 

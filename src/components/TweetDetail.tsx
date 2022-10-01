@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const TweetDetail = ({ tweetId }: ITweetDetail) => {
     const navigate = useNavigate();
+
     const { contract, account: { address, disconnect } } = useContract();
     const [tweet, setTweet] = useState<ITweetData | undefined>();
     const [pendingTweets, setPendingTweets] = useState<ITweetData[]>([]);
@@ -19,7 +20,7 @@ export const TweetDetail = ({ tweetId }: ITweetDetail) => {
                 console.error(err.message);
             }
         }
-    }, [contract, tweetId]);
+    }, [contract, tweetId, navigate]);
 
     useEffect(() => {
         getTweet();

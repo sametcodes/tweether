@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { useContract } from '../context/Contract';
 
 import { Tweet, PendingTweet, TweetLoading } from '../components'
@@ -39,13 +39,13 @@ export const TweetList = ({ pendingTweets, setPendingTweets, lists }: ITweetList
         };
     }, [lastElement]);
 
-    const getTweet = async (tweetId: number): Promise<ITweetData> => {
+    const getTweet = useCallback(async (tweetId: number): Promise<ITweetData> => {
         const tweet = await contract.getTweet(tweetId);
         const [id, owner, replies, likes, likedByMe, text, createdAt, reply, repliedTo]: TweetType = tweet;
         return { id: Number(id), owner, replies, likes: Number(likes), likedByMe, text, createdAt: Number(createdAt), reply, repliedTo };
-    }
+    }, [contract])
 
-    const getTweets = async () => {
+    const getTweets = useCallback(async () => {
         const tweetIds = Array.isArray(lists)
             ? lists.slice(refOffset.current, refOffset.current + LIMIT_PER_PAGE).reverse()
             : Array.from({ length: LIMIT_PER_PAGE },
@@ -57,13 +57,13 @@ export const TweetList = ({ pendingTweets, setPendingTweets, lists }: ITweetList
         const tweetsData = await Promise.all(tweetIds.map(getTweet));
         setTweets(tweet => ([...tweet, ...tweetsData]));
         setLoading(false);
-    }
+    }, [lists, getTweet])
 
-    const getTotalTweet = async () => {
+    const getTotalTweet = useCallback(async () => {
         const response = await contract.getTotalTweet();
         total.current = Number(response);
         getTweets();
-    }
+    }, [contract, getTweets])
 
     useEffect(() => {
         if (Array.isArray(lists)) {
@@ -71,7 +71,7 @@ export const TweetList = ({ pendingTweets, setPendingTweets, lists }: ITweetList
         } else {
             getTotalTweet();
         }
-    }, []);
+    }, [getTotalTweet, getTweets, lists]);
 
     contract.on('CreateTweet', async (tweetId: number, owner: string, text: string) => {
         if (pendingTweets.find(tweet => tweet.owner.toLowerCase() === owner.toLocaleLowerCase() && tweet.text === text)) {
