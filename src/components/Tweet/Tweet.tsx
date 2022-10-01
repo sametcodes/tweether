@@ -2,6 +2,7 @@ import { useState, useRef, LegacyRef } from 'react';
 import { useContract } from '../../context/Contract';
 import { shortenAddress, getRelativeTime } from '../../utils';
 import { Link, useNavigate } from 'react-router-dom';
+import Blockies from 'react-blockies';
 
 import { TweetLoading } from '../index';
 
@@ -45,10 +46,9 @@ export const Tweet = ({ data }: ITweet) => {
         return <TweetLoading />
     }
 
-    console.log(tweet);
     return (
         <div className={`tweet ${processing ? "pending" : ""}`} onClick={onClickTweet}>
-            {/* <img src="https://avatar.tonies.de/static/stage/01.png" className="avatar" alt="avatar" /> */}
+            <Blockies seed={tweet.owner.toLowerCase()} size={10} scale={5} className="avatar" />
             <div className="content">
                 <div className="content-header">
                     <span className="author">

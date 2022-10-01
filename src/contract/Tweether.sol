@@ -2,12 +2,6 @@
 pragma solidity ^0.8.13;
 
 contract Tweether{
-    uint public lastTweetId = 0;
-
-    event CreateTweet(uint tweetId, address sender, string text);
-    event LikeTweet(uint tweetId, address sender);
-    event DeleteTweet(uint tweetId, address sender);
-
     struct Tweet{
         uint tweetId;
         address owner;
@@ -20,7 +14,16 @@ contract Tweether{
         uint repliedTo;
     }
 
+    uint public lastTweetId;
     Tweet[] private tweets;
+
+    constructor(){
+        lastTweetId = 0;
+    }
+
+    event CreateTweet(uint tweetId, address sender, string text);
+    event LikeTweet(uint tweetId, address sender);
+    event DeleteTweet(uint tweetId, address sender);
 
     modifier exists(uint tweetId){
         require(tweetId < lastTweetId, "The specified tweet doesn't exist");

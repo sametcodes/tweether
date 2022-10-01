@@ -46,6 +46,10 @@ a:hover{
   background-color: #eee;
   cursor: pointer;
 }
+.tweet-loading:hover{
+  background-color: inherit;
+  cursor: pointer;
+}
 
 .tweet-box:hover{
   background-color: inherit;

@@ -47,7 +47,7 @@ export const TweetList = ({ pendingTweets, setPendingTweets, lists }: ITweetList
 
     const getTweets = async () => {
         const tweetIds = Array.isArray(lists)
-            ? lists.slice(refOffset.current, refOffset.current + LIMIT_PER_PAGE)
+            ? lists.slice(refOffset.current, refOffset.current + LIMIT_PER_PAGE).reverse()
             : Array.from({ length: LIMIT_PER_PAGE },
                 (_, index) => index + total.current - LIMIT_PER_PAGE - refOffset.current)
                 .filter(id => id >= 0).reverse();
@@ -90,7 +90,6 @@ export const TweetList = ({ pendingTweets, setPendingTweets, lists }: ITweetList
             .reverse().map(id => <TweetLoading key={id} />)}
 
         <span ref={setLastElement as any}></span>
-
         {loading === false && tweets.length === total.current && <div className="no-more">End of tweeths</div>}
     </div>
 }

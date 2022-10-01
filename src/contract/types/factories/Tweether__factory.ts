@@ -8,6 +8,11 @@ import type { Tweether, TweetherInterface } from "../Tweether";
 
 const _abi = [
   {
+    inputs: [],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
     anonymous: false,
     inputs: [
       {

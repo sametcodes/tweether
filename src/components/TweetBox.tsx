@@ -1,11 +1,12 @@
 import { useRef, useState } from 'react';
-
+import Blockies from 'react-blockies';
 import { shortenAddress } from '../utils';
 import { useContract } from '../context/Contract';
 
 export const TweetBox = ({ address, disconnect, setPendingTweets, replyTo}: ITweetBox) => {
     
     // TODO: implement text limit
+    // TODO: implement blockies
 
     const { contract } = useContract();
     const [ pending, setPending ] = useState(false);
@@ -48,7 +49,7 @@ export const TweetBox = ({ address, disconnect, setPendingTweets, replyTo}: ITwe
 
     return (
         <div className="tweet tweet-box">
-            {/* <img src="https://avatar.tonies.de/static/stage/01.png" className="avatar" alt="avatar" /> */}
+            <Blockies seed={address.toLowerCase()} size={10} scale={5} className="avatar" />
             <div className="content">
                 <span className="author">
                     <span className="name">{shortenAddress(address)} ― <button onClick={disconnect} disabled={pending}>Disconnect</button></span>

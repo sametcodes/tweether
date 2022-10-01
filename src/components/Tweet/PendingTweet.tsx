@@ -1,9 +1,10 @@
 import { shortenAddress } from '../../utils';
+import Blockies from 'react-blockies';
 
 export const PendingTweet = ({ tweet }: { tweet: ITweetData }) => {
     return (
         <div className="tweet pending">
-            {/* <img src="https://avatar.tonies.de/static/stage/01.png" className="avatar" alt="avatar" /> */}
+            <Blockies seed={tweet.owner.toLowerCase()} size={10} scale={5} className="avatar" />
             <div className="content">
                 <span className="author">
                     <span className="name">{shortenAddress(tweet.owner)}</span>
