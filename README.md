@@ -1,46 +1,38 @@
-# Getting Started with Create React App
+# Tweether ― Social Texting Platform
+## Proje hakkında
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Proje tech-stack olarak React/TypeScript kullanıyor. Kontratın derlenmesi için kontrat dosyası `src/contract/Tweether.sol` altında dosyasında oluşturulmalı. ABI kodunu derlemek için `npm run compile:contract` komutu gönderilmeli, komut gönderildiğinde ABI kodu `src/contract/Tweether.json` dosyası altında oluşacaktır. Kontrat adresi `.env` dosyasında `REACT_APP_CONTRACT_ADDRESS` ortam değişkeniyle tanımlanması gerekiyor.
 
-## Available Scripts
+Akıllı kontratları süren front-end uygulamalarında daha sağlıklı ve güvenli bir geliştirme ortamına sahip olmak için TypeScript kullanımının çok önemli olduğunu düşünüyorum. Tüm componentlerin olabildiğince interfacelerini yazmaya çalıştım. Akıllı kontratın instance'ı runtime üzerinde açığa çıktığı için methodların interfacelerini yazamıyordum, fakat bunun için ABI kodu üzerinden methodların girdi ve çıktılarına okuyarak interfaceleri otomatik olarak oluşturan ve uygulama tarafına bir factory contrat çıkaran [TypeChain](https://github.com/dethcrypto/TypeChain) paketini kullandım. ABI kodunda herhangi bir değişiklik yapılması durumunda `npm run typechain` komutunun çalıştırılarak interfacelerin güncellenmesi gerekmekte.
 
-In the project directory, you can run:
+## Kontrat kodu hakkında
 
-### `yarn start`
+Kontrat koduna (`src/contract/Tweether.sol`) bakılacak olursa `tweets[]` dizisinin `private` olarak tanımlandığı görülecektir. Bu state değişkenini private yapmamın sebebi diziden veri çekilmek istendiğinde `getTweet()` metodunun kullanımına izin vermek. Çünkü `Tweet` structı içerisinde `likedBy` değerinin hesaplanması gerekiyor ve doğrudan state erişiminin olması durumunda bu hesaplamayı sağlanamıyor.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Struct yapısından bahsecek olursam, Tweet structı kendi arasında one-to-many ilişkisine sahip. Yapının ilişkisi diagram üzerinde [buradan](https://dbdiagram.io/d/633841a37b3d2034ff009027) görüntülenebilir.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Projeyi koşmak
 
-### `yarn test`
+Öncelikle tüm bağımlılıklar yüklenmeli:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm install
+```
 
-### `yarn build`
+Bağımlılıkların yüklenmesi tamamlandıktan sonra proje ayağa kaldırılabilir:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`src/contract/Tweether.sol` dosyasında herhangi bir değişiklik yapılması durumunda ABI kodunun yeniden üretilmesi ve kontrat methodlarının interfacelerinin yeniden inşa edilmesi gerekmekte, bunun için aşağıdaki komut çalıştırılmalı. Bu komut `compile:contract` ve `compile:typechain` komutlarını tek seferde gönderecektir.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm run compile
+```
 
-### `yarn eject`
+## Bağımlılıklar
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- [React Blockies](https://www.npmjs.com/package/react-blockies)
+- [dethcrypto/TypeChain](https://github.com/dethcrypto/TypeChain)
+- [React Router v6](https://reactrouter.com/en/main)
