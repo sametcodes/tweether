@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { CONTRACT_ADDRESS, CONTRACT_NETWORK_ID, CONTRACT_NETWORK_NAME } from '../contract';
 import { ethers } from 'ethers';
 import { Tweether__factory } from '../contract/types';
@@ -26,8 +26,11 @@ const ContractContext = ({ children }: { children: React.ReactNode }) => {
     const [error, setError] = useState<string>("");
     const [networkId, setNetworkId] = useState<number>();
 
-    (window.ethereum as EthersProvider).on('accountsChanged', (accounts) => {
+    const contract = useMemo(() => Tweether__factory.connect(CONTRACT_ADDRESS, provider.getSigner()), [walletAddress]);
+
+    (window.ethereum as EthersProvider).on('accountsChanged', (accounts: any) => {
         connect();
+        contract.attach(accounts[0]);
         setWalletAddress(accounts[0]);
     });
 
