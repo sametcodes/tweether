@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 export const TweetDetail = ({ tweetId }: ITweetDetail) => {
     const navigate = useNavigate();
 
-    const { contract, account: { address, disconnect } } = useContract();
+    const { contract, account: { address, changeAccount } } = useContract();
     const [tweet, setTweet] = useState<ITweetData | undefined>();
     const [pendingTweets, setPendingTweets] = useState<ITweetData[]>([]);
 
@@ -34,7 +34,7 @@ export const TweetDetail = ({ tweetId }: ITweetDetail) => {
         {!tweet && Array.from({ length: 10 }, (_, index) => index + 1).reverse().map(id => <TweetLoading key={id} />)}
         {tweet && <Tweet data={tweet} />}
         {address && tweet && <TweetBox
-            replyTo={tweet.id} address={address} disconnect={disconnect} setPendingTweets={setPendingTweets} />}
+            replyTo={tweet.id} address={address} changeAccount={changeAccount} setPendingTweets={setPendingTweets} />}
 
         {
             tweet && <TweetList

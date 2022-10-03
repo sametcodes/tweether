@@ -6,13 +6,13 @@ import { ExternalProvider } from '@ethersproject/providers';
 import { useCallback } from 'react';
 
 const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-const contract = Tweether__factory.connect(CONTRACT_ADDRESS, provider.getSigner());
+const contract = Tweether__factory.connect(CONTRACT_ADDRESS, provider);
 
 const Context = React.createContext<IContractContext>({
     account: {
         address: null,
-        connect: () => { },
-        disconnect: () => { },
+        connect: () => {},
+        changeAccount: () => {}
     },
     contract,
     error: "",
@@ -26,12 +26,12 @@ const ContractContext = ({ children }: { children: React.ReactNode }) => {
     const [error, setError] = useState<string>("");
     const [networkId, setNetworkId] = useState<number>();
 
-    (window.ethereum as EthersProvider).on('accountsChanged', (accounts) => {
+    (window.ethereum as EthersProvider).on('accountsChanged', (accounts) => {
         connect();
         setWalletAddress(accounts[0]);
     });
 
-    (window.ethereum as EthersProvider).on('networkChanged', (network, name) => {
+    (window.ethereum as EthersProvider).on('networkChanged', (network, name) => {
         connect();
         setError("");
         setNetworkId(Number(network));
@@ -41,27 +41,32 @@ const ContractContext = ({ children }: { children: React.ReactNode }) => {
         const [account] = await provider.send("eth_requestAccounts", []);
         contract.attach(account);
         setWalletAddress(account);
-    }, [walletAddress])
+    }, [])
 
     const getNetwork = useCallback(async () => {
         const network = await provider.getNetwork();
         if (network.chainId !== CONTRACT_NETWORK_ID) {
-            setError(`Please switch to ${CONTRACT_NETWORK_NAME} network.`);
+            setError(`Please switch to ${CONTRACT_NETWORK_NAME} network to use the application.`);
         } else {
             setError("");
+
+            const [account] = await provider.send("eth_accounts", []);
+            if (!account) return;
+            contract.attach(account);
+            setWalletAddress(account);
         }
         setNetworkId(network.chainId);
     }, [connect])
 
     useEffect(() => {
         getNetwork();
-    }, [walletAddress])
+    }, []);
 
-    const disconnect = () => {
-        setWalletAddress(null);
-    }
+    const changeAccount = useCallback(async () => {
+        await provider.send("wallet_requestPermissions", [{ eth_accounts: {} }])
+    }, [])
 
-    return <Context.Provider value={{ account: { address: walletAddress, connect, disconnect }, contract, networkId, error }}>
+    return <Context.Provider value={{ account: { address: walletAddress, changeAccount, connect }, contract, networkId, error }}>
         {children}
     </Context.Provider>
 }

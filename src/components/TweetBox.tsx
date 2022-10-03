@@ -3,7 +3,7 @@ import Blockies from 'react-blockies';
 import { shortenAddress } from '../utils';
 import { useContract } from '../context/Contract';
 
-export const TweetBox = ({ address, disconnect, setPendingTweets, replyTo}: ITweetBox) => {
+export const TweetBox = ({ address, changeAccount, setPendingTweets, replyTo}: ITweetBox) => {
     const { contract } = useContract();
     const [ pending, setPending ] = useState(false);
 
@@ -48,7 +48,8 @@ export const TweetBox = ({ address, disconnect, setPendingTweets, replyTo}: ITwe
             <Blockies seed={address.toLowerCase()} size={10} scale={5} className="avatar" />
             <div className="content">
                 <span className="author">
-                    <span className="name">{shortenAddress(address)} ― <button onClick={disconnect} disabled={pending}>Disconnect</button></span>
+                    <span className="name">{shortenAddress(address)}</span>
+                    <button onClick={changeAccount} disabled={pending}>Switch Account</button>
                 </span>
 
                 <div className="tweet-controls">

@@ -6,7 +6,7 @@ interface Window {
 
 interface ITweetBox {
     address: string;
-    disconnect: () => void;
+    changeAccount: () => void;
     setPendingTweets: React.Dispatch<React.SetStateAction<ITweetData[]>>;
     replyTo?: number;
 }
@@ -33,7 +33,7 @@ interface IContractContext {
     account: {
         address: string | null;
         connect: () => void;
-        disconnect: () => void;
+        changeAccount: () => void;
     },
     contract: import('./contract/types/Tweether').Tweether,
     error: string,
