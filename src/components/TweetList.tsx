@@ -4,7 +4,7 @@ import { useContract } from '../context/Contract';
 import { Tweet, PendingTweet, TweetLoading } from '../components'
 
 export const TweetList = ({ pendingTweets, setPendingTweets, lists }: ITweetList) => {
-    const { contract } = useContract();
+    const { contract, networkId } = useContract();
 
     const LIMIT_PER_PAGE = 10;
     const refOffset = useRef(0);
@@ -71,7 +71,7 @@ export const TweetList = ({ pendingTweets, setPendingTweets, lists }: ITweetList
         } else {
             getTotalTweet();
         }
-    }, [getTotalTweet, getTweets, lists]);
+    }, [getTotalTweet, getTweets, lists, networkId]);
 
     contract.on('CreateTweet', async (tweetId: number, owner: string, text: string) => {
         if (pendingTweets.find(tweet => tweet.owner.toLowerCase() === owner.toLocaleLowerCase() && tweet.text === text)) {

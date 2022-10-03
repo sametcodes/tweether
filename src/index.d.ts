@@ -35,19 +35,32 @@ interface IContractContext {
         connect: () => void;
         disconnect: () => void;
     },
-    contract: import('./contract/types/Tweether').Tweether
+    contract: import('./contract/types/Tweether').Tweether,
+    error: string,
+    networkId: number | undefined;
 }
 
-interface ITweetList{
+interface ITweetList {
     pendingTweets: ITweetData[];
     setPendingTweets: React.Dispatch<React.SetStateAction<ITweetData[]>>;
     lists?: number[];
 }
 
-interface IHeader{
+interface IHeader {
     setPendingTweets: React.Dispatch<React.SetStateAction<ITweetData[]>>;
 }
 
-interface ITweetDetail{
+interface ITweetDetail {
     tweetId: number;
 }
+
+declare global {
+    interface Window {
+        ethereum: import('@ethersproject/providers').ExternalProvider;
+    }
+}
+
+type ExtensionForProvider = {
+    on: (event: string, callback: (...params: any) => void) => void;
+};
+type EthersProvider = import('@ethersproject/providers').ExternalProvider & ExtensionForProvider;
