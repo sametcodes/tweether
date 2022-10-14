@@ -1,37 +1,35 @@
 # Tweether ― Social Texting Platform
-## Proje hakkında
 
-Proje tech-stack olarak React/TypeScript kullanıyor. Kontratın derlenmesi için kontrat dosyası `src/contract/Tweether.sol` altında dosyasında oluşturulmalı. ABI kodunu derlemek için `npm run compile:contract` komutu gönderilmeli, komut gönderildiğinde ABI kodu `src/contract/Tweether.json` dosyası altında oluşacaktır. Kontrat adresi `.env` dosyasında `REACT_APP_CONTRACT_ADDRESS` ortam değişkeniyle tanımlanması gerekiyor.
+## About
 
-Akıllı kontratları süren front-end uygulamalarında daha sağlıklı ve güvenli bir geliştirme ortamına sahip olmak için TypeScript kullanımının çok önemli olduğunu düşünüyorum. Tüm componentlerin olabildiğince interfacelerini yazmaya çalıştım. Akıllı kontratın instance'ı runtime üzerinde açığa çıktığı için methodların interfacelerini yazamıyordum, fakat bunun için ABI kodu üzerinden methodların girdi ve çıktılarına okuyarak interfaceleri otomatik olarak oluşturan ve uygulama tarafına bir factory contrat çıkaran [TypeChain](https://github.com/dethcrypto/TypeChain) paketini kullandım. ABI kodunda herhangi bir değişiklik yapılması durumunda `npm run typechain` komutunun çalıştırılarak interfacelerin güncellenmesi gerekmekte.
+`tweether` is a blockchain-based twitter clone, _that was done for educational purposes._
 
-## Kontrat kodu hakkında
+The stack is based on React/TypeScript. The smart contract for the application must be located under `src/contract/Tweether.sol`. The ABI code will be produced as `src/contract/Tweether.json` after running `npm run compile:contract` command. The contract address must be defined with `REACT_APP_CONTRACT_ADDRESS` environment variable in the `.env` file.
 
-Kontrat koduna (`src/contract/Tweether.sol`) bakılacak olursa `tweets[]` dizisinin `private` olarak tanımlandığı görülecektir. Bu state değişkenini private yapmamın sebebi diziden veri çekilmek istendiğinde `getTweet()` metodunun kullanımına izin vermek. Çünkü `Tweet` structı içerisinde `likedBy` değerinin hesaplanması gerekiyor ve doğrudan state erişiminin olması durumunda bu hesaplamayı sağlanamıyor.
+Using TypeScript on frontend applications provides a safer development environment, it can be optional for some projects. When web applications that drive smart contracts are concerned, it must be a necessity, in my opinion. Interfaces were clearly declared for all the components, and TypeChain was used to declare the smart contract methods. If something changes in the smart contract, it should be compiled again and run `npm run typechain` command to update method interfaces.
 
-Struct yapısından bahsecek olursam, Tweet structı kendi arasında one-to-many ilişkisine sahip. Yapının ilişkisi diagram üzerinde [buradan](https://dbdiagram.io/d/633841a37b3d2034ff009027) görüntülenebilir.
+## About the contract code
 
-## Projeyi koşmak
+If you check out `src/contract/Tweether.sol`, you'll notice that `tweets[]` array is defined as private variable. The reason is to promote data fetching from the `getTweet` method. The cause is `likedBy` value in the `Tweet` struct requires a calculation; it's not possible to do that in the way of direct access to `tweets[]` variable.
 
-Öncelikle tüm bağımlılıklar yüklenmeli:
+`Tweet` struct has a one-to-many relation on itself. The relation can be seen [here](https://dbdiagram.io/d/633841a37b3d2034ff009027) as a table.
+## Install and Run
 
 ```bash
 npm install
 ```
 
-Bağımlılıkların yüklenmesi tamamlandıktan sonra proje ayağa kaldırılabilir:
-
 ```bash
 npm start
 ```
 
-`src/contract/Tweether.sol` dosyasında herhangi bir değişiklik yapılması durumunda ABI kodunun yeniden üretilmesi ve kontrat methodlarının interfacelerinin yeniden inşa edilmesi gerekmekte, bunun için aşağıdaki komut çalıştırılmalı. Bu komut `compile:contract` ve `compile:typechain` komutlarını tek seferde gönderecektir.
+In the case of changing `src/contract/Tweether.sol` file, the ABI code and interface of the smart contract must be reproduced. The `compile:contract` and `compile:typechain` commands can be sent as `compile` at once.
 
 ```bash
 npm run compile
 ```
 
-## Bağımlılıklar
+## Dependencies
 
 - [React Blockies](https://www.npmjs.com/package/react-blockies)
 - [dethcrypto/TypeChain](https://github.com/dethcrypto/TypeChain)
